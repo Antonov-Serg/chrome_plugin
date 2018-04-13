@@ -1,0 +1,24 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="vor6fKIeZs0B_TdtO7B77lZV7_NguOc_nk5O-3XfC3k" />
+        <title>mailwith24</title>
+        <meta name="google-signin-scope" content="profile email identity">
+        <meta name="google-signin-client_id" content="763445920258-dt1182u020g1k2bcs42rtlnh0eguodau.apps.googleusercontent.com">
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+    </head>
+    <body>
+    https://developers.google.com/identity/sign-in/web/
+    https://chrome.google.com/webstore/developer/dashboard?hl=ru
+
+        <app>
+            <components v-bind:is="currentView">
+                <login_form></login_form>
+                <send_form></send_form>
+            </components>
+        </app>
+    </body>
+    <script defer src="./js/vue.js"></script>
+    <script defer src="./js/mailwith24.js"></script>
+</html>
