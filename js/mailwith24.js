@@ -154,7 +154,17 @@ var v_app = new Vue({
             * */
             console.log('token N2O exists');
             this.currentView = 'login_form';
-            chrome.identity.getAccounts((accounts) => {
+            chrome.identity.getAuthToken({
+                'interactive': true,
+                //account: accounts[0],   //  вот тут по хорошему надо сначала спросить юзера какой акк юзать, но для тестов юзаем тупо первый
+                scopes: ["https://www.googleapis.com/auth/userinfo.email"],  //  скопы из манифеста
+            }, (token) => {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError);
+                };
+                console.log(token);
+            });
+            /*chrome.identity.getAccounts((accounts) => {
                 if (! accounts.length) {
                     chrome.identity.getAuthToken({
                         'interactive': true,
@@ -166,18 +176,9 @@ var v_app = new Vue({
                         console.log(token);
                     });
                 } else {
-                    chrome.identity.getAuthToken({
-                        'interactive': true,
-                        account: accounts[0],   //  вот тут по хорошему надо сначала спросить юзера какой акк юзать, но для тестов юзаем тупо первый
-                        scopes: ["https://www.googleapis.com/auth/userinfo.email"],  //  скопы из манифеста
-                    }, (token) => {
-                        if (chrome.runtime.lastError) {
-                            console.error(chrome.runtime.lastError);
-                        };
-                        console.log(token);
-                    });
+
                 };
-            });
+            });*/
         }
     }
 });// end Vue obj
