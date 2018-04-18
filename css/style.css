@@ -1,0 +1,27 @@
+html, body{
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    width: 170px;
+    height: 140px;
+}
+
+.btn{
+    display: block;
+    width: 70vw;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 5px;
+    background: #3f7ebf;
+    margin: 5vh auto;
+    text-align: center;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+}
+.btn:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
