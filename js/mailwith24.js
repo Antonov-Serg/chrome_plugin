@@ -89,22 +89,18 @@ var v_app = new Vue({
 
     components: {
         login_form: {
-            template: `<div><a href="#Login" class="btn">Login</a></div>`
+            template: `<div>login_form</div>`
         },
 
         send_form: {
-            /*
             template: `<form method="post"">
-                            <input type="text" name="name_user" />
-                            <input type="email" name="email_user" />
-                            <textarea name="comment_user"></textarea>
-                            <input type="hidden" name="mail_date" />
-                            <input type="hide" name="token" />
-                            <button type="submit" class="btn">Send</button>
-                            <a href="https://mail.google.com/" target="_blank" class="btn">Open Gmail</a>
-                        </form>`
-            */
-            template: `<a href="https://mail.google.com/" target="_blank" class="btn">Open Gmail</a>`
+				                    <input type="text" name="name_user" />
+				                    <input type="email" name="email_user" />
+				                    <textarea name="comment_user"></textarea>
+				                    <input type="hidden" name="mail_date" />
+				                    <input type="hide" name="token" />
+				                    <button type="submit">Send</button>
+				                </form>`
         },
     },
 
@@ -127,8 +123,6 @@ var v_app = new Vue({
 //console.log(this.currentView);
             return this.currentView;
         },
-
-        go_login
 /**/
     },
 
@@ -138,11 +132,8 @@ var v_app = new Vue({
     },
 
     created(){
-
-        console.log(chrome);
-
         //window.localStorage.setItem('auth_token', 'response.data');//#################################################### DEBUG !!! тыкнули какие-то данные в локал сторадж
-        window.localStorage.removeItem('auth_token');//#################################################### DEBUG !!! снесли какие-то данные в локалсторадж
+        //window.localStorage.removeItem('auth_token');//#################################################### DEBUG !!! снесли какие-то данные в локалсторадж
         if(window.localStorage.getItem('auth_token') !== null){
             /*
             *
@@ -160,7 +151,7 @@ console.log('token exists');
             * */
 console.log('token N2O exists');
             this.currentView = 'login_form';
-            chrome.identity.getAuthToken({// ########################################################################## прикрутить на клик по кнопке логина
+            chrome.identity.getAuthToken({
                 'interactive': true,
                 //account: accounts[0],   //  вот тут по хорошему надо сначала спросить юзера какой акк юзать, но для тестов юзаем тупо первый
                 scopes: ["https://www.googleapis.com/auth/userinfo.email"],  //  скопы из манифеста
@@ -182,7 +173,7 @@ console.log('token N2O exists');
                     * отсюда забираем данные и клаем в localStorage
                     *
                     * */
-                    window.localStorage.setItem('auth_token', token);// response.data - просто затычка. тут должен быть ответ с сервера
+                    window.localStorage.setItem('auth_token', 'response.data');// response.data - просто затычка. тут должен быть ответ с сервера
                     //this.show_sendform = !this.show_sendform;
                     this.rotate_forms();
                 })

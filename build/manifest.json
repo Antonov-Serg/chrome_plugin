@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+
+  "name": "mailwith24",
+  "description": "This extension for mailwith24",
+  "version": "1.0",
+  "content_security_policy": "script-src 'self' https://apis.google.com/ 'unsafe-eval' https://apis.google.com/; object-src 'self';",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlVwHmWTdEK/Kb2mA0nJpt2i6wprc1jSNsnmLq1VzSdUyqvfHpeNqKlckZOe98raklqasygpP6/0dGuH0UjWL0CWE6pguZoK/t0KR8Dj7kldNtxSSrbNanSgpjfTlM64580FweZ0rCA+7dnkosJ7ot5+7NI0Qohv3Z+84cChOx4J6vW8p4K6DCdrU0lU+QSIstRiIbvHApDvb8meh7Z7g3ejx2nqYD0v1kgrIA7lysbLApddeV3MELxwgIGnlKo4Aw5if+pzHZfdrUWJ+UnhKYCUbcY2K+fawUjHXJ94NsWnFxbMS8vzolUz7KghD1Hq8NsV67bUBO2mkdIMI9oB0GwIDAQAB",
+
+  "background": {
+    "scripts": ["./js/vue.js", "./js/index.js"]
+  },
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "permissions": [
+    "activeTab", "cookies", "identity", "*://*/"
+  ],
+  "oauth2": {
+    "client_id": "763445920258-dt1182u020g1k2bcs42rtlnh0eguodau.apps.googleusercontent.com",
+    "scopes": ["openid", "email", "profile", "cookies"]
+  }
+}

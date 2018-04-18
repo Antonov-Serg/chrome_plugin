@@ -1,0 +1,37 @@
+{
+  "name": "mailwith24_chrome_plugin",
+  "version": "1.0.0",
+  "description": "Mailwith24 Chrome plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha .",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Antonov-Serg/chrome_plugin.git"
+  },
+  "keywords": [
+    "mail",
+    "gmail",
+    "email",
+    "chrome",
+    "plugin",
+    "chromium"
+  ],
+  "author": "olegmdev",
+  "license": "BSD-4-Clause",
+  "bugs": {
+    "url": "https://github.com/Antonov-Serg/chrome_plugin/issues"
+  },
+  "homepage": "https://github.com/Antonov-Serg/chrome_plugin#readme",
+  "dependencies": {
+    "request": "^2.85.0",
+    "request-promise-native": "^1.0.5",
+    "vue": "^2.5.16"
+  },
+  "devDependencies": {
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.0.14"
+  }
+}

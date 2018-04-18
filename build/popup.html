@@ -1,0 +1,17 @@
+<!DOCTYPE>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>mailwith24</title>
+	</head>
+	<body>
+		<app>
+			<components v-bind:is="currentView">
+				<login_form></login_form>
+				<send_form></send_form>
+			</components>
+		</app>
+	</body>
+	<script defer src="./js/vue.js"></script>
+	<script defer src="./js/index.js"></script>
+</html>
