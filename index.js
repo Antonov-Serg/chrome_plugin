@@ -1,6 +1,7 @@
 const log = console.log;
 
 const r = require('request-promise-native');
+const util = require('util');
 
 const getGToken = async () => {
 	return new Promise((go, stop) => {
@@ -23,62 +24,50 @@ const getLToken = async (g_auth_token) => {
 	return res.token;
 };
 
+const csSet = async (k, v) => {
+	return new Promise((go, stop) => {
+		chrome.storage.sync.set({ [k]: v }, () => {
+			return go();
+		});
+	});
+};
+const csGet = async (k) => {
+	return new Promise((go, stop) => {
+		chrome.storage.sync.get(k, (v) => {
+			if (k in v) return go(v[k]);
+			return go(undefined);
+		});
+	});
+};
+
 (async () => {
-	var v_app = new Vue({
-		el: 'components',
+	var app = new Vue({
+		el: 'app',
 		data: {
-			show_authform: false,
-			show_sendform: true,
+			showAuth: true,
 			g_auth_token: '',
 			l_auth_token: '',
-			endpoint: 'http://homestead.test/test.html',
-			currentView: 'login_form',
-		},
-		components: {
-			login_form: {
-				template: `<div>login_form</div>`
-			},
-			send_form: {
-				template: `<form method="post"">
-										<input type="text" name="name_user" />
-										<input type="email" name="email_user" />
-										<textarea name="comment_user"></textarea>
-										<input type="hidden" name="mail_date" />
-										<input type="hide" name="token" />
-										<button type="submit">Send</button>
-									</form>`
-			},
+			currentView: 'mainView',
 		},
 		methods: {
-			rotate_forms: function () {
-				if(this.show_sendform == true){
-					this.currentView = 'send_form';
-				}else{
-					this.currentView = 'login_form';
-				}
-
-				this.show_authform = !this.show_authform;// true=>false || false=>true
-				this.show_sendform = !this.show_sendform;// true=>false || false=>true
-
-				return this.currentView;
+			performAuth: async () => {
+				if (this.g_auth_token.length) return undefined;
+				this.g_auth_token = await getGToken().catch((e) => { console.error(e); });
+				await csSet('g_auth_token', this.g_auth_token);
+				if (! this.l_auth_token.length) {
+					this.l_auth_token = await getLToken(this.g_auth_token).catch((e) => { console.error(e); });
+					await csSet('l_auth_token', this.l_auth_token);
+				};
+				this.showAuth = false;
 			},
 		},
 		beforeCreate () {
-			this.currentView = 'send_form';
+			this.currentView = 'mainView';
 		},
 		async created () {
-			window.localStorage.removeItem('g_auth_token');
-			window.localStorage.removeItem('l_auth_token');
-			let g_auth_token = window.localStorage.getItem('g_auth_token');
-			let l_auth_token = window.localStorage.getItem('l_auth_token');
-			if (! g_auth_token) {
-				g_auth_token = await getGToken().catch((e) => { console.error(e); });
-				window.localStorage.setItem('g_auth_token', g_auth_token);
-			};
-			if (! l_auth_token) {
-				l_auth_token = await getLToken(g_auth_token).catch((e) => { console.error(e); });
-				window.localStorage.setItem('l_auth_token', l_auth_token);	
-			};
+			this.g_auth_token = await csGet('g_auth_token');
+			this.l_auth_token = await csGet('l_auth_token');
+			if (this.g_auth_token.length) this.showAuth = false;
 		}
 	});
 })();

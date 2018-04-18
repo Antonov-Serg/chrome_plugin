@@ -6,12 +6,12 @@
 	</head>
 	<body>
 		<app>
-			<components v-bind:is="currentView">
-				<login_form></login_form>
-				<send_form></send_form>
-			</components>
+			<div>
+				<button type="button" id="authButton" v-if="showAuth" v-on:click="performAuth">Authorize</button>
+				<span v-if="!showAuth">Go to GMail to see functionality of extension!</span>
+			</div>
 		</app>
 	</body>
 	<script defer src="./js/vue.js"></script>
-	<script defer src="./js/index.js"></script>
+	<script defer src="./js/background.js"></script>
 </html>

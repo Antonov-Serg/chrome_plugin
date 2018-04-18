@@ -1,10 +1,13 @@
 const path = require('path');
 
 module.exports = {
-	entry: './index.js',
+	entry: {
+		background: './index.js',
+		content: './content.js',
+	},
 	output: {
 		path: path.resolve(__dirname, 'build', 'js'),
-		filename: 'index.js',
+		filename: '[name].js',
 	},
 	node: {
 		fs: 'empty',
