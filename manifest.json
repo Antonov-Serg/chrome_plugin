@@ -8,7 +8,7 @@
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlVwHmWTdEK/Kb2mA0nJpt2i6wprc1jSNsnmLq1VzSdUyqvfHpeNqKlckZOe98raklqasygpP6/0dGuH0UjWL0CWE6pguZoK/t0KR8Dj7kldNtxSSrbNanSgpjfTlM64580FweZ0rCA+7dnkosJ7ot5+7NI0Qohv3Z+84cChOx4J6vW8p4K6DCdrU0lU+QSIstRiIbvHApDvb8meh7Z7g3ejx2nqYD0v1kgrIA7lysbLApddeV3MELxwgIGnlKo4Aw5if+pzHZfdrUWJ+UnhKYCUbcY2K+fawUjHXJ94NsWnFxbMS8vzolUz7KghD1Hq8NsV67bUBO2mkdIMI9oB0GwIDAQAB",
 
   "background": {
-    "scripts": ["./js/vue.js", "./js/mailwith24.js", "./js/platform.js"]
+    "scripts": ["./js/vue.js", "./js/mailwith24.js", "./js/axios.min.js"]
   },
 
   "browser_action": {

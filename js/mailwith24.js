@@ -78,8 +78,8 @@ var v_app = new Vue({
     el: 'components', // элемент который мы работаем
 
     data: {
-        show_authform: true,
-        show_sendform: false,
+        show_authform: false,
+        show_sendform: true,
 
         auth_token: '',
         endpoint: 'http://homestead.test/test.html',
@@ -88,12 +88,8 @@ var v_app = new Vue({
     },
 
     components: {
-
         login_form: {
-            template: `
-				            <div>
-				                <div class="g-signin2" data-onsuccess="onSignIn"></div>
-				            </div>`
+            template: `<div>login_form</div>`
         },
 
         send_form: {
@@ -109,7 +105,12 @@ var v_app = new Vue({
     },
 
     methods: {
+/**/
+        // по идее ротация нам сейчас не нужна?
         rotate_forms: function () {
+
+            console.log(this.show_sendform);
+
             if(this.show_sendform == true){
                 this.currentView = 'send_form';
             }else{
@@ -119,59 +120,68 @@ var v_app = new Vue({
             this.show_authform = !this.show_authform;// true=>false || false=>true
             this.show_sendform = !this.show_sendform;// true=>false || false=>true
 
-            console.log(this.currentView);
+//console.log(this.currentView);
             return this.currentView;
         },
-
-        get_temporary_token: function(){
-
-            //
-
-        }
-
-
+/**/
     },
 
     beforeCreate(){
-        console.log('new Vue ... ok');
-        this.currentView = 'login_form';
+//console.log('new Vue ... ok');
+        this.currentView = 'send_form';
     },
 
     created(){
-        window.localStorage.removeItem('auth_token');//#################################################### DEBUG !!!
+        //window.localStorage.setItem('auth_token', 'response.data');//#################################################### DEBUG !!! тыкнули какие-то данные в локал сторадж
+        //window.localStorage.removeItem('auth_token');//#################################################### DEBUG !!! снесли какие-то данные в локалсторадж
         if(window.localStorage.getItem('auth_token') !== null){
             /*
             *
-            * если токен у нас есть - проверяем время жизни
+            * если токен у нас есть - проверяем время жизни и показываем форму
             *
             * */
-            console.log('token exists');
+            //this.show_sendform = !this.show_sendform;
+            this.rotate_forms();
+console.log('token exists');
         }else{
             /*
             *
-            *  если доступов нет - получаем
+            *  если токена нет - получаем
             *
             * */
-            console.log('token NO exists');
+console.log('token N2O exists');
             this.currentView = 'login_form';
+            chrome.identity.getAuthToken({
+                'interactive': true,
+                //account: accounts[0],   //  вот тут по хорошему надо сначала спросить юзера какой акк юзать, но для тестов юзаем тупо первый
+                scopes: ["https://www.googleapis.com/auth/userinfo.email"],  //  скопы из манифеста
+            }, (token) => {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError);
+                };
+
+                axios.get('http://localhost:8081/auth/getinfo/' + token)
+                .then(function (response) {
+                    /*
+                    *
+                    * данные ушли, все хоршо и прекрасно
+                    *
+                    * */
+                    console.log(response);
+                    /*
+                    *
+                    * отсюда забираем данные и клаем в localStorage
+                    *
+                    * */
+                    window.localStorage.setItem('auth_token', 'response.data');// response.data - просто затычка. тут должен быть ответ с сервера
+                    //this.show_sendform = !this.show_sendform;
+                    this.rotate_forms();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+            });
         }
     }
 });// end Vue obj
-//console.log(v_app.currentView);
-
-function onSignIn(googleUser) {
-    console.log('here');
-    // Useful data for your client-side scripts:
-    var profile = googleUser.getBasicProfile();
-    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-    console.log('Full Name: ' + profile.getName());
-    console.log('Given Name: ' + profile.getGivenName());
-    console.log('Family Name: ' + profile.getFamilyName());
-    console.log("Image URL: " + profile.getImageUrl());
-    console.log("Email: " + profile.getEmail());
-
-    // The ID token you need to pass to your backend:
-    var id_token = googleUser.getAuthResponse().id_token;
-    console.log("ID Token: " + id_token);
-};
-
