@@ -1,6 +1,7 @@
 const log = console.log;
 const $ = require('jquery');
-const rp = require('request-promise-native');
+const axios = require('axios');
+const util = require('util');
 
 const csSet = async (k, v) => {
 	return new Promise((go, stop) => {
@@ -55,16 +56,21 @@ const addSendAnonButton = async (composeButton) => {
 					};
 				};
 				log(`${message} to ${recipients}`);
-				let res = await rp('http://localhost:8081/mail', {
-					method: 'POST',
-					strictSSL: false,
-					json: true,
-					body: {
-						from: 'atata@gmail.com',
-						to: recipients[0],
+				log(window.l_auth_token);
+				let res = await axios({
+					method: 'post',
+					url: 'http://localhost:8081/mail',
+					data: {
+						from: window.userEmail,
+						to: recipients[0].toString(),
 						message,
 					},
+					json: true,
+					headers: {
+						'Authorization': `Bearer ${window.l_auth_token}`,
+					},
 				});
+				log(`res: ${util.inspect(res)}`);
 			};
 			sendBtn.parentNode.appendChild(asendBtn);
 			parentTds[i].setAttribute('mailwith24-exhanced', 'yes');
@@ -73,8 +79,9 @@ const addSendAnonButton = async (composeButton) => {
 };
 
 (async () => {
-	let g_auth_token = await csGet('g_auth_token');
-	let l_auth_token = await csGet('l_auth_token');
+	window.g_auth_token = await csGet('g_auth_token');
+	window.l_auth_token = await csGet('l_auth_token');
+	window.userEmail = await csGet('userEmail');
 	document.addEventListener('click', async (ev) => {
 		let target = ev.target;
 		if (('innerText' in target) && (target.innerText.toLowerCase() === 'compose')) await addSendAnonButton(ev.target);

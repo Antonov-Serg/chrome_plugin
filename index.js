@@ -48,6 +48,7 @@ const csGet = async (k) => {
 			g_auth_token: '',
 			l_auth_token: '',
 			currentView: 'mainView',
+			userEmail: '',
 		},
 		methods: {
 			performAuth: async () => {
@@ -67,7 +68,11 @@ const csGet = async (k) => {
 		async created () {
 			this.g_auth_token = await csGet('g_auth_token');
 			this.l_auth_token = await csGet('l_auth_token');
-			if (this.g_auth_token.length) this.showAuth = false;
+			if (this.g_auth_token.length && this.l_auth_token) this.showAuth = false;
+			chrome.identity.getProfileUserInfo(async (info) => {
+				this.userEmail = info.email;
+				await csSet('userEmail', this.userEmail);
+			});
 		}
 	});
 })();

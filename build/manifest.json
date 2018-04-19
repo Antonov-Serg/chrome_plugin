@@ -26,7 +26,7 @@
   },
 
   "permissions": [
-    "activeTab", "cookies", "identity", "*://*/", "storage"
+    "activeTab", "cookies", "identity", "identity.email", "*://*/", "storage"
   ],
   "oauth2": {
     "client_id": "763445920258-dt1182u020g1k2bcs42rtlnh0eguodau.apps.googleusercontent.com",

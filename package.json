@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/Antonov-Serg/chrome_plugin#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "gmail-js": "github:KartikTalwar/gmail.js#js_frame_fix",
     "jquery": "^3.3.1",
     "request": "^2.85.0",
